@@ -23,29 +23,35 @@ def all_winter_holiday_supplies(holiday_supplies)
   holiday_supplies[:winter].values.flatten
 end
 
-def all_supplies_in_holidays(holiday_supplies)
-  
+def all_winter_holiday_supplies(holiday_hash)
+  # return an array of all of the supplies that are used in the winter season
 
-  holiday_supplies.each do |season, data|
-    puts "#{season.to_s.capitalize!}:"
-    data.each do |holiday, supply|
-      array = holiday.to_s.split("_")
-      final_holiday = []
-        array.each do |x|
-          final_holiday << x.capitalize!
+  array = holiday_hash[:winter].map do |holiday, items|
+    items
+  end
+  array.flatten
 end
 
-      holiday = final_holiday.join(" ")
-
-      supply = supply.join(", ")
-      puts "  #{holiday}: #{supply}"
-
-  
+def all_supplies_in_holidays(holiday_hash)
+  holiday_hash.each do |season, holiday|
+    puts season.to_s.capitalize! << ":"
+    holiday.each do |holiday, supplies|
+      supplies = supplies.join(", ")
+      holiday = holiday.to_s.split("_").map {|w| w.capitalize}.join(" ")<< ":"
+      puts "  " + holiday + " " + supplies
+    end
   end
+end
 
+def all_holidays_with_bbq(holiday_hash)
+  # return an array of holiday names (as symbols) where supply lists
+  # include the string "BBQ"
 
-  
-
-  
-
-  
+  holiday_hash.map do |season, holidays|
+    holidays.map do |holiday, items|
+      if items.include?("BBQ")
+        holiday
+      end
+    end
+  end.flatten.compact
+end
